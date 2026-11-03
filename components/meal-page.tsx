@@ -205,7 +205,7 @@ export default function MealPage() {
         <span id="amountRaw" hidden>{valid ? String(amount) : ""}</span>
       </div>
       <div className="qr">
-        <img src="/payment-qr.png" width="220" height="220" alt="Mã QR chuyển khoản VietQR của Chu Anh Phuong, Ngân hàng Bản Việt" />
+        <img src="/payment-qr.png" width="220" height="220" alt="Mã QR chuyển khoản VietQR của Nguyen Nhat Truong, Ngân hàng Bản Việt" />
         <p>Mở app ngân hàng, quét mã là xong. Mã không kèm số tiền, bạn nhập theo món đã chọn nhé.</p>
       </div>
     </div>
@@ -308,7 +308,7 @@ export default function MealPage() {
   <footer>
     <p className="hand">Cảm ơn bạn đã ghé qua. Chúc bạn hôm nay ăn ngon.</p>
     <p>Làm bằng cơm nguội và lòng biết ơn.</p>
-    <p className="copyright">© 2026 Chu Anh Phuong. Bảo lưu mọi quyền. Lời văn, hình minh họa và bố cục của trang này thuộc về chủ trang. Vui lòng không sao chép hoặc dùng lại cho mục đích thương mại khi chưa được đồng ý. Chia sẻ đường dẫn thì luôn được hoan nghênh.</p>
+    <p className="copyright">© 2026 Bảo lưu mọi quyền. Lời văn, hình minh họa và bố cục của trang này thuộc về chủ trang. Vui lòng không sao chép hoặc dùng lại cho mục đích thương mại khi chưa được đồng ý. Chia sẻ đường dẫn thì luôn được hoan nghênh.</p>
   </footer>
 </div>
 
