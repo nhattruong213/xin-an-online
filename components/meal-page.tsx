@@ -205,7 +205,7 @@ export default function MealPage() {
         <span id="amountRaw" hidden>{valid ? String(amount) : ""}</span>
       </div>
       <div className="qr">
-        <img src="/payment-qr.png" width="220" height="220" alt="Mã QR chuyển khoản VietQR của Nguyen Nhat Truong, Ngân hàng Bản Việt" />
+        <img src="/payment-qr.png" width="220" height="220" alt="Mã QR chuyển khoản VietQR của Nguyen Nhat Truong, ngân hàng TPBank" />
         <p>Mở app ngân hàng, quét mã là xong. Mã không kèm số tiền, bạn nhập theo món đã chọn nhé.</p>
       </div>
     </div>
