@@ -37,11 +37,11 @@ const THANKS = [
   }
 ]
 
-type Coin = { id: number; dx: number; delay: number; label: string };
+type Coin = { id: number; dx: number; delay: number };
 export default function MealPage() {
   const [selection, setSelection] = useState("50000");
   const [customAmount, setCustomAmount] = useState("30000");
-  const [caption, setCaption] = useState("Nón đang trống, bụng cũng vậy. Chọn một món bên dưới để thả tờ tiền đầu tiên.");
+  const [caption, setCaption] = useState("Bát đang trống, bụng cũng vậy. Chọn một món bên dưới để thả đồng xu đầu tiên.");
   const [coins, setCoins] = useState<Coin[]>([]);
   const [showThanks, setShowThanks] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
@@ -55,24 +55,6 @@ export default function MealPage() {
   const tier = THANKS.find((item) => amount >= item.min) || THANKS[THANKS.length - 1];
 
   useEffect(() => () => { if (toastTimer.current) clearTimeout(toastTimer.current); }, []);
-  useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const targets = document.querySelectorAll<HTMLElement>(
-      ".section-head, .menu .item, .panel, .thanks-cta, .promises li, .receipt, .help > div, .faq details"
-    );
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (!entry.isIntersecting) return;
-        entry.target.classList.add("is-visible");
-        observer.unobserve(entry.target);
-      });
-    }, { threshold: 0.08, rootMargin: "0px 0px -30px 0px" });
-    targets.forEach((target) => {
-      target.classList.add("reveal-on-scroll");
-      observer.observe(target);
-    });
-    return () => observer.disconnect();
-  }, []);
   function toast(message: string) {
     setToastMessage(message);
     if (toastTimer.current) clearTimeout(toastTimer.current);
@@ -81,7 +63,7 @@ export default function MealPage() {
   function dropCoins(value: number) {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const count = value >= 100000 ? 4 : value >= 50000 ? 3 : value >= 20000 ? 2 : 1;
-    setCoins((items) => [...items, ...Array.from({ length: count }, (_, index) => ({ id: coinId.current++, dx: Math.random() * 60 - 30, delay: index * 150, label: index % 2 ? "5K" : "1K" }))]);
+    setCoins((items) => [...items, ...Array.from({ length: count }, (_, index) => ({ id: coinId.current++, dx: Math.random() * 60 - 30, delay: index * 150 }))]);
   }
   function updateCustomCaption(value: string) {
     const custom = Number.parseInt(value, 10);
@@ -117,7 +99,7 @@ export default function MealPage() {
   function thankYou() {
     if (!valid) { toast("Bạn nhập số tiền từ 1.000đ trở lên nhé"); return; }
     setShowThanks(true);
-    setCaption("Tờ tiền của bạn đã vào nón. Mình xin chân thành cảm ơn!");
+    setCaption("Đồng xu của bạn đã vào bát. Mình xin chân thành cảm ơn!");
     dropCoins(Math.max(amount, 50000));
     requestAnimationFrame(() => {
       thanksRef.current?.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "center" });
@@ -128,46 +110,58 @@ export default function MealPage() {
 <div className="wrap">
 
   <header className="top">
-    <a className="brand" href="#top" aria-label="Xin Một Bữa, về đầu trang">
+    <div className="brand">
       <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M3 14h26c0 8-5 14-13 14S3 22 3 14z" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinejoin="round"></path><path d="M7 14c1-5 5-8 9-8s8 3 9 8" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round"></path></svg>
       Xin Một Bữa
-    </a>
-    <nav className="top-nav" aria-label="Điều hướng chính">
-      <a href="#moi">Thực đơn</a>
-      <a href="#hua">Lời hứa</a>
-      <a href="#faq">Hỏi đáp</a>
-      <a className="nav-cta" href="#moi">Mời mình ăn <span aria-hidden="true">↗</span></a>
-    </nav>
+    </div>
+    <small>Xin online, no offline</small>
   </header>
 
-  <section className="hero" id="top" aria-labelledby="h-hero">
-    <div className="hero-image" role="img" aria-label="Chiếc nón lá cũ sờn rách nằm ngửa trên chiếc bàn tối, ảnh đen trắng" />
-    <div className="grain-overlay" aria-hidden="true" />
+  <section className="hero" aria-labelledby="h-hero">
     <div className="hero-text">
       <p className="eyebrow">Nền tảng ăn xin online · không áo rách, không bát sứt</p>
       <h1 id="h-hero"><span className="l">Ăn xin online.</span><em>Bạn quét, mình no.</em></h1>
       <p className="lead">Chào bạn, mình là người đi xin. Thời đại số rồi nên mình xin bằng mã QR cho văn minh: bạn chọn món, mình ăn, ai cũng vui. Một ly trà đá thôi cũng được tính là đóng góp cho nền ẩm thực nước nhà.</p>
-      <p className="hand">— người xin ăn phiên bản 2.0, có cả wifi <span className="tagline">· Xin online, no offline</span></p>
+      <p className="hand">— người xin ăn phiên bản 2.0, có cả wifi</p>
       <div className="cta-row">
         <a className="btn btn-primary" href="#moi">Mời mình ăn</a>
         <a className="btn btn-ghost" href="#hua">Mình hứa gì?</a>
       </div>
-      <p className="bowl-caption" id="caption" aria-live="polite">{caption}</p>
     </div>
 
     <div className="bowl-wrap">
-      <div className="bowl-stage" id="stage">{coins.map((coin) => <span key={coin.id} className="coin" aria-hidden="true" style={{ "--dx": coin.dx + "px", animationDelay: coin.delay + "ms" } as CSSProperties} onAnimationEnd={() => setCoins((items) => items.filter((item) => item.id !== coin.id))}>{coin.label}</span>)}
-        <svg viewBox="0 0 320 260" role="img" aria-label="Chiếc nón lá ngửa">
-          <path d="M28 86Q160 154 292 86L174 235Q160 253 146 235Z" fill="var(--surface)" stroke="var(--cobalt)" strokeWidth="7" strokeLinejoin="round" />
-          <ellipse cx="160" cy="86" rx="132" ry="48" fill="var(--cobalt-soft)" stroke="var(--cobalt)" strokeWidth="7" />
-          <path d="M57 76Q160 126 263 76M81 60Q160 101 239 60M108 45Q160 72 212 45M160 39V128" fill="none" stroke="var(--cobalt)" strokeWidth="3" opacity=".55" />
-          <path d="M28 86Q160 154 292 86M54 109Q160 177 266 109M80 143Q160 192 240 143M111 184Q160 215 209 184" fill="none" stroke="var(--cobalt)" strokeWidth="3" opacity=".55" />
+      <div className="bowl-stage" id="stage">{coins.map((coin) => <span key={coin.id} className="coin" aria-hidden="true" style={{ "--dx": coin.dx + "px", animationDelay: coin.delay + "ms" } as CSSProperties} onAnimationEnd={() => setCoins((items) => items.filter((item) => item.id !== coin.id))}>₫</span>)}
+        <svg viewBox="0 0 320 260" role="img" aria-label="Chiếc bát sứ men lam đựng cơm trắng và một quả trứng ốp la">
+          <g className="steam" fill="none" stroke="var(--muted)" strokeWidth="3" strokeLinecap="round">
+            <path d="M120 38c-8-8 8-14 0-24"></path>
+            <path d="M160 30c-8-8 8-14 0-24"></path>
+            <path d="M200 38c-8-8 8-14 0-24"></path>
+          </g>
+          <path d="M52 112C60 66 108 48 160 48s100 18 108 64z" fill="var(--rice)" stroke="var(--cobalt)" strokeWidth="3.5" strokeLinejoin="round"></path>
+          <g fill="var(--line)">
+            <ellipse cx="96" cy="86" rx="5" ry="2.5" transform="rotate(-25 96 86)"></ellipse>
+            <ellipse cx="124" cy="72" rx="5" ry="2.5" transform="rotate(15 124 72)"></ellipse>
+            <ellipse cx="112" cy="100" rx="5" ry="2.5" transform="rotate(35 112 100)"></ellipse>
+            <ellipse cx="228" cy="92" rx="5" ry="2.5" transform="rotate(-30 228 92)"></ellipse>
+            <ellipse cx="246" cy="104" rx="5" ry="2.5" transform="rotate(20 246 104)"></ellipse>
+          </g>
+          <path d="M162 68c4-14 26-18 40-10 14 8 12 24-4 28-12 3-20-2-30 0-8 2-10-8-6-18z" fill="#FFFFFF" stroke="var(--cobalt)" strokeWidth="2.5" strokeLinejoin="round"></path>
+          <circle cx="188" cy="72" r="9" fill="var(--yolk)"></circle>
+          <path d="M24 108h272c0 82-52 130-136 130S24 190 24 108z" fill="var(--surface)" stroke="var(--cobalt)" strokeWidth="4" strokeLinejoin="round"></path>
+          <path d="M18 108h284" stroke="var(--cobalt)" strokeWidth="9" strokeLinecap="round"></path>
+          <g fill="none" stroke="var(--cobalt)" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M52 150q12-18 24 0q12-18 24 0q12-18 24 0q12-18 24 0q12-18 24 0q12-18 24 0q12-18 24 0q12-18 24 0q12-18 24 0"></path>
+            <path d="M88 178q12-18 24 0q12-18 24 0q12-18 24 0q12-18 24 0q12-18 24 0q12-18 24 0"></path>
+            <path d="M112 204q12-16 24 0q12-16 24 0q12-16 24 0q12-16 24 0"></path>
+          </g>
+          <path d="M118 236h84l-6 14h-72z" fill="var(--cobalt-soft)" stroke="var(--cobalt)" strokeWidth="3.5" strokeLinejoin="round"></path>
         </svg>
       </div>
+      <p className="bowl-caption" id="caption" aria-live="polite">{caption}</p>
     </div>
   </section>
 
-  <section id="moi" className="menu-section" aria-labelledby="h-moi">
+  <section id="moi" aria-labelledby="h-moi">
     <div className="section-head">
       <p className="eyebrow">Thực đơn mời mình</p>
       <h2 id="h-moi">Bạn muốn mời mình món gì?</h2>
@@ -233,7 +227,6 @@ export default function MealPage() {
   </section>
 
   <section id="hua" className="split" aria-labelledby="h-hua">
-    <div className="grain-overlay" aria-hidden="true" />
     <div>
       <p className="eyebrow">Lời hứa của người đi xin</p>
       <h2 id="h-hua">Xin thì xin, nhưng mình xin có đạo đức.</h2>
@@ -265,7 +258,7 @@ export default function MealPage() {
     </div>
   </section>
 
-  <section className="help-section" aria-labelledby="h-help">
+  <section aria-labelledby="h-help">
     <div className="section-head">
       <p className="eyebrow">Chưa tiện chuyển khoản?</p>
       <h2 id="h-help">Vẫn có ba cách giúp mình.</h2>
@@ -287,8 +280,7 @@ export default function MealPage() {
     </div>
   </section>
 
-  <section id="faq" className="faq-section" aria-labelledby="h-faq">
-    <div className="grain-overlay" aria-hidden="true" />
+  <section aria-labelledby="h-faq">
     <div className="section-head">
       <p className="eyebrow">Hỏi nhanh đáp gọn</p>
       <h2 id="h-faq">Bạn đang nghĩ gì, mình biết hết.</h2>
