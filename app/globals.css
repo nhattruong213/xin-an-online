@@ -42,7 +42,7 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 600; line-height: 1.
 .top-nav .nav-cta:hover { color: var(--ink); background: #f1ffab; }
 .nav-cta span { margin-left: 12px; font-size: 1rem; }
 .hero { min-height: 860px; min-height: min(980px, 100svh); position: relative; isolation: isolate; overflow: hidden; background: #090909; }
-.hero-image { position: absolute; inset: 0; z-index: 0; mix-blend-mode: screen; background: url('/hero-rice-editorial.png') center 52% / cover no-repeat; animation: hero-image-in 1.5s cubic-bezier(.16, 1, .3, 1) both; }
+.hero-image { position: absolute; inset: 0; z-index: 0; mix-blend-mode: screen; background: url('/hero-worn-non-la-mono.png') center 52% / cover no-repeat; animation: hero-image-in 1.5s cubic-bezier(.16, 1, .3, 1) both; }
 .hero::before { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none; background: linear-gradient(90deg, rgba(0,0,0,.72) 0%, rgba(0,0,0,.27) 53%, rgba(0,0,0,.05) 100%), linear-gradient(0deg, #090909 0%, transparent 38%, rgba(0,0,0,.24) 100%); }
 .grain-overlay { position: absolute; inset: -100%; pointer-events: none; z-index: -1; opacity: .12; background: #000 url('/black-noise.png') repeat; animation: grain-sweep .2s linear infinite alternate; will-change: transform; }
 @keyframes grain-sweep { from { transform: translate3d(-10%, -10%, 0); } to { transform: translate3d(10%, 10%, 0); } }
@@ -75,7 +75,7 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 600; line-height: 1.
 .bowl-stage { position: relative; width: 132px; height: 132px; border-radius: 50%; background: var(--accent); display: grid; place-items: center; box-shadow: 0 0 0 14px rgba(228,255,120,.1); }
 .bowl-stage svg { width: 116px; height: 100px; --cobalt: #111110; --cobalt-soft: #fff; --muted: #111110; }
 .bowl-caption { max-width: 560px; font: 500 .76rem/1.55 var(--font-body); color: #c8c8c0; margin-top: 2px; }
-.coin { position: absolute; z-index: 2; left: 50%; top: -30%; display: grid; place-items: center; width: 32px; height: 32px; margin-left: -16px; border-radius: 50%; background: var(--white); color: var(--ink); font: 800 1rem var(--font-display); opacity: 0; animation: coin-drop .95s cubic-bezier(.45,0,.7,1) forwards; }
+.coin { position: absolute; z-index: 2; left: 50%; top: -30%; display: grid; place-items: center; width: 39px; height: 25px; margin-left: -19px; border: 2px solid var(--ink); border-radius: 3px; background: #d6d9ac; color: var(--ink); font: 800 .67rem var(--font-display); opacity: 0; animation: coin-drop .95s cubic-bezier(.45,0,.7,1) forwards; }
 @keyframes coin-drop { 12% { opacity: 1; } 100% { top: 38%; opacity: 1; transform: translateX(var(--dx,0)) rotate(420deg); } }
 .steam path { animation: steam 3.2s ease-in-out infinite; }
 .steam path:nth-child(2) { animation-delay: .8s; }

@@ -37,11 +37,11 @@ const THANKS = [
   }
 ]
 
-type Coin = { id: number; dx: number; delay: number };
+type Coin = { id: number; dx: number; delay: number; label: string };
 export default function MealPage() {
   const [selection, setSelection] = useState("50000");
   const [customAmount, setCustomAmount] = useState("30000");
-  const [caption, setCaption] = useState("Bát đang trống, bụng cũng vậy. Chọn một món bên dưới để thả đồng xu đầu tiên.");
+  const [caption, setCaption] = useState("Nón đang trống, bụng cũng vậy. Chọn một món bên dưới để thả tờ tiền đầu tiên.");
   const [coins, setCoins] = useState<Coin[]>([]);
   const [showThanks, setShowThanks] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
@@ -81,7 +81,7 @@ export default function MealPage() {
   function dropCoins(value: number) {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const count = value >= 100000 ? 4 : value >= 50000 ? 3 : value >= 20000 ? 2 : 1;
-    setCoins((items) => [...items, ...Array.from({ length: count }, (_, index) => ({ id: coinId.current++, dx: Math.random() * 60 - 30, delay: index * 150 }))]);
+    setCoins((items) => [...items, ...Array.from({ length: count }, (_, index) => ({ id: coinId.current++, dx: Math.random() * 60 - 30, delay: index * 150, label: index % 2 ? "5K" : "1K" }))]);
   }
   function updateCustomCaption(value: string) {
     const custom = Number.parseInt(value, 10);
@@ -117,7 +117,7 @@ export default function MealPage() {
   function thankYou() {
     if (!valid) { toast("Bạn nhập số tiền từ 1.000đ trở lên nhé"); return; }
     setShowThanks(true);
-    setCaption("Đồng xu của bạn đã vào bát. Mình xin chân thành cảm ơn!");
+    setCaption("Tờ tiền của bạn đã vào nón. Mình xin chân thành cảm ơn!");
     dropCoins(Math.max(amount, 50000));
     requestAnimationFrame(() => {
       thanksRef.current?.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "center" });
@@ -141,10 +141,10 @@ export default function MealPage() {
   </header>
 
   <section className="hero" id="top" aria-labelledby="h-hero">
-    <div className="hero-image" role="img" aria-label="Một bát cơm trắng với trứng ốp la trên chiếc bàn tối" />
+    <div className="hero-image" role="img" aria-label="Chiếc nón lá cũ sờn rách nằm ngửa trên chiếc bàn tối, ảnh đen trắng" />
     <div className="grain-overlay" aria-hidden="true" />
     <div className="hero-text">
-      <p className="eyebrow">Nền tảng ăn xin online · không áo rách, không bát sứt</p>
+      <p className="eyebrow">Có nón lá, có mã QR · xin ăn phiên bản 2.0</p>
       <h1 id="h-hero"><span className="l">Ăn xin online.</span><em>Bạn quét, mình no.</em></h1>
       <p className="lead">Chào bạn, mình là người đi xin. Thời đại số rồi nên mình xin bằng mã QR cho văn minh: bạn chọn món, mình ăn, ai cũng vui. Một ly trà đá thôi cũng được tính là đóng góp cho nền ẩm thực nước nhà.</p>
       <p className="hand">— người xin ăn phiên bản 2.0, có cả wifi <span className="tagline">· Xin online, no offline</span></p>
@@ -156,31 +156,12 @@ export default function MealPage() {
     </div>
 
     <div className="bowl-wrap">
-      <div className="bowl-stage" id="stage">{coins.map((coin) => <span key={coin.id} className="coin" aria-hidden="true" style={{ "--dx": coin.dx + "px", animationDelay: coin.delay + "ms" } as CSSProperties} onAnimationEnd={() => setCoins((items) => items.filter((item) => item.id !== coin.id))}>₫</span>)}
-        <svg viewBox="0 0 320 260" role="img" aria-label="Chiếc bát sứ men lam đựng cơm trắng và một quả trứng ốp la">
-          <g className="steam" fill="none" stroke="var(--muted)" strokeWidth="3" strokeLinecap="round">
-            <path d="M120 38c-8-8 8-14 0-24"></path>
-            <path d="M160 30c-8-8 8-14 0-24"></path>
-            <path d="M200 38c-8-8 8-14 0-24"></path>
-          </g>
-          <path d="M52 112C60 66 108 48 160 48s100 18 108 64z" fill="var(--rice)" stroke="var(--cobalt)" strokeWidth="3.5" strokeLinejoin="round"></path>
-          <g fill="var(--line)">
-            <ellipse cx="96" cy="86" rx="5" ry="2.5" transform="rotate(-25 96 86)"></ellipse>
-            <ellipse cx="124" cy="72" rx="5" ry="2.5" transform="rotate(15 124 72)"></ellipse>
-            <ellipse cx="112" cy="100" rx="5" ry="2.5" transform="rotate(35 112 100)"></ellipse>
-            <ellipse cx="228" cy="92" rx="5" ry="2.5" transform="rotate(-30 228 92)"></ellipse>
-            <ellipse cx="246" cy="104" rx="5" ry="2.5" transform="rotate(20 246 104)"></ellipse>
-          </g>
-          <path d="M162 68c4-14 26-18 40-10 14 8 12 24-4 28-12 3-20-2-30 0-8 2-10-8-6-18z" fill="#FFFFFF" stroke="var(--cobalt)" strokeWidth="2.5" strokeLinejoin="round"></path>
-          <circle cx="188" cy="72" r="9" fill="var(--yolk)"></circle>
-          <path d="M24 108h272c0 82-52 130-136 130S24 190 24 108z" fill="var(--surface)" stroke="var(--cobalt)" strokeWidth="4" strokeLinejoin="round"></path>
-          <path d="M18 108h284" stroke="var(--cobalt)" strokeWidth="9" strokeLinecap="round"></path>
-          <g fill="none" stroke="var(--cobalt)" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M52 150q12-18 24 0q12-18 24 0q12-18 24 0q12-18 24 0q12-18 24 0q12-18 24 0q12-18 24 0q12-18 24 0q12-18 24 0"></path>
-            <path d="M88 178q12-18 24 0q12-18 24 0q12-18 24 0q12-18 24 0q12-18 24 0q12-18 24 0"></path>
-            <path d="M112 204q12-16 24 0q12-16 24 0q12-16 24 0q12-16 24 0"></path>
-          </g>
-          <path d="M118 236h84l-6 14h-72z" fill="var(--cobalt-soft)" stroke="var(--cobalt)" strokeWidth="3.5" strokeLinejoin="round"></path>
+      <div className="bowl-stage" id="stage">{coins.map((coin) => <span key={coin.id} className="coin" aria-hidden="true" style={{ "--dx": coin.dx + "px", animationDelay: coin.delay + "ms" } as CSSProperties} onAnimationEnd={() => setCoins((items) => items.filter((item) => item.id !== coin.id))}>{coin.label}</span>)}
+        <svg viewBox="0 0 320 260" role="img" aria-label="Chiếc nón lá ngửa">
+          <path d="M28 86Q160 154 292 86L174 235Q160 253 146 235Z" fill="var(--surface)" stroke="var(--cobalt)" strokeWidth="7" strokeLinejoin="round" />
+          <ellipse cx="160" cy="86" rx="132" ry="48" fill="var(--cobalt-soft)" stroke="var(--cobalt)" strokeWidth="7" />
+          <path d="M57 76Q160 126 263 76M81 60Q160 101 239 60M108 45Q160 72 212 45M160 39V128" fill="none" stroke="var(--cobalt)" strokeWidth="3" opacity=".55" />
+          <path d="M28 86Q160 154 292 86M54 109Q160 177 266 109M80 143Q160 192 240 143M111 184Q160 215 209 184" fill="none" stroke="var(--cobalt)" strokeWidth="3" opacity=".55" />
         </svg>
       </div>
     </div>
