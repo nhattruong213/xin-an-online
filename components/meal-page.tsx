@@ -55,6 +55,24 @@ export default function MealPage() {
   const tier = THANKS.find((item) => amount >= item.min) || THANKS[THANKS.length - 1];
 
   useEffect(() => () => { if (toastTimer.current) clearTimeout(toastTimer.current); }, []);
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const targets = document.querySelectorAll<HTMLElement>(
+      ".section-head, .menu .item, .panel, .thanks-cta, .promises li, .receipt, .help > div, .faq details"
+    );
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("is-visible");
+        observer.unobserve(entry.target);
+      });
+    }, { threshold: 0.08, rootMargin: "0px 0px -30px 0px" });
+    targets.forEach((target) => {
+      target.classList.add("reveal-on-scroll");
+      observer.observe(target);
+    });
+    return () => observer.disconnect();
+  }, []);
   function toast(message: string) {
     setToastMessage(message);
     if (toastTimer.current) clearTimeout(toastTimer.current);
@@ -124,6 +142,7 @@ export default function MealPage() {
 
   <section className="hero" id="top" aria-labelledby="h-hero">
     <div className="hero-image" role="img" aria-label="Một bát cơm trắng với trứng ốp la trên chiếc bàn tối" />
+    <div className="grain-overlay" aria-hidden="true" />
     <div className="hero-text">
       <p className="eyebrow">Nền tảng ăn xin online · không áo rách, không bát sứt</p>
       <h1 id="h-hero"><span className="l">Ăn xin online.</span><em>Bạn quét, mình no.</em></h1>
@@ -233,6 +252,7 @@ export default function MealPage() {
   </section>
 
   <section id="hua" className="split" aria-labelledby="h-hua">
+    <div className="grain-overlay" aria-hidden="true" />
     <div>
       <p className="eyebrow">Lời hứa của người đi xin</p>
       <h2 id="h-hua">Xin thì xin, nhưng mình xin có đạo đức.</h2>
@@ -287,6 +307,7 @@ export default function MealPage() {
   </section>
 
   <section id="faq" className="faq-section" aria-labelledby="h-faq">
+    <div className="grain-overlay" aria-hidden="true" />
     <div className="section-head">
       <p className="eyebrow">Hỏi nhanh đáp gọn</p>
       <h2 id="h-faq">Bạn đang nghĩ gì, mình biết hết.</h2>
