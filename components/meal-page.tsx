@@ -144,7 +144,7 @@ export default function MealPage() {
     <div className="hero-image" role="img" aria-label="Chiếc nón lá cũ sờn rách nằm ngửa trên chiếc bàn tối, ảnh đen trắng" />
     <div className="grain-overlay" aria-hidden="true" />
     <div className="hero-text">
-      <p className="eyebrow">Có nón lá, có mã QR · xin ăn phiên bản 2.0</p>
+      <p className="eyebrow">Nền tảng ăn xin online · không áo rách, không bát sứt</p>
       <h1 id="h-hero"><span className="l">Ăn xin online.</span><em>Bạn quét, mình no.</em></h1>
       <p className="lead">Chào bạn, mình là người đi xin. Thời đại số rồi nên mình xin bằng mã QR cho văn minh: bạn chọn món, mình ăn, ai cũng vui. Một ly trà đá thôi cũng được tính là đóng góp cho nền ẩm thực nước nhà.</p>
       <p className="hand">— người xin ăn phiên bản 2.0, có cả wifi <span className="tagline">· Xin online, no offline</span></p>
