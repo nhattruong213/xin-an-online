@@ -110,23 +110,30 @@ export default function MealPage() {
 <div className="wrap">
 
   <header className="top">
-    <div className="brand">
+    <a className="brand" href="#top" aria-label="Xin Một Bữa, về đầu trang">
       <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M3 14h26c0 8-5 14-13 14S3 22 3 14z" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinejoin="round"></path><path d="M7 14c1-5 5-8 9-8s8 3 9 8" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round"></path></svg>
       Xin Một Bữa
-    </div>
-    <small>Xin online, no offline</small>
+    </a>
+    <nav className="top-nav" aria-label="Điều hướng chính">
+      <a href="#moi">Thực đơn</a>
+      <a href="#hua">Lời hứa</a>
+      <a href="#faq">Hỏi đáp</a>
+      <a className="nav-cta" href="#moi">Mời mình ăn <span aria-hidden="true">↗</span></a>
+    </nav>
   </header>
 
-  <section className="hero" aria-labelledby="h-hero">
+  <section className="hero" id="top" aria-labelledby="h-hero">
+    <div className="hero-image" role="img" aria-label="Một bát cơm trắng với trứng ốp la trên chiếc bàn tối" />
     <div className="hero-text">
       <p className="eyebrow">Nền tảng ăn xin online · không áo rách, không bát sứt</p>
       <h1 id="h-hero"><span className="l">Ăn xin online.</span><em>Bạn quét, mình no.</em></h1>
       <p className="lead">Chào bạn, mình là người đi xin. Thời đại số rồi nên mình xin bằng mã QR cho văn minh: bạn chọn món, mình ăn, ai cũng vui. Một ly trà đá thôi cũng được tính là đóng góp cho nền ẩm thực nước nhà.</p>
-      <p className="hand">— người xin ăn phiên bản 2.0, có cả wifi</p>
+      <p className="hand">— người xin ăn phiên bản 2.0, có cả wifi <span className="tagline">· Xin online, no offline</span></p>
       <div className="cta-row">
         <a className="btn btn-primary" href="#moi">Mời mình ăn</a>
         <a className="btn btn-ghost" href="#hua">Mình hứa gì?</a>
       </div>
+      <p className="bowl-caption" id="caption" aria-live="polite">{caption}</p>
     </div>
 
     <div className="bowl-wrap">
@@ -157,11 +164,10 @@ export default function MealPage() {
           <path d="M118 236h84l-6 14h-72z" fill="var(--cobalt-soft)" stroke="var(--cobalt)" strokeWidth="3.5" strokeLinejoin="round"></path>
         </svg>
       </div>
-      <p className="bowl-caption" id="caption" aria-live="polite">{caption}</p>
     </div>
   </section>
 
-  <section id="moi" aria-labelledby="h-moi">
+  <section id="moi" className="menu-section" aria-labelledby="h-moi">
     <div className="section-head">
       <p className="eyebrow">Thực đơn mời mình</p>
       <h2 id="h-moi">Bạn muốn mời mình món gì?</h2>
@@ -258,7 +264,7 @@ export default function MealPage() {
     </div>
   </section>
 
-  <section aria-labelledby="h-help">
+  <section className="help-section" aria-labelledby="h-help">
     <div className="section-head">
       <p className="eyebrow">Chưa tiện chuyển khoản?</p>
       <h2 id="h-help">Vẫn có ba cách giúp mình.</h2>
@@ -280,7 +286,7 @@ export default function MealPage() {
     </div>
   </section>
 
-  <section aria-labelledby="h-faq">
+  <section id="faq" className="faq-section" aria-labelledby="h-faq">
     <div className="section-head">
       <p className="eyebrow">Hỏi nhanh đáp gọn</p>
       <h2 id="h-faq">Bạn đang nghĩ gì, mình biết hết.</h2>
